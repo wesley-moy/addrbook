@@ -1,2 +1,2 @@
 # addrbook
-addrbook to get familiar with node and react. Codazen. 
+address book to get familiar with node and react. Codazen.
