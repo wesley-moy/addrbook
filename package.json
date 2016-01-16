@@ -19,6 +19,7 @@
   "dependencies": {
     "express": "3.0.0rc5",
     "history": "^1.17.0",
+    "jquery": "^2.2.0",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
     "react-router": "^1.0.3"
