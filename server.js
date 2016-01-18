@@ -15,7 +15,7 @@ getContactById = function getContactById(id) {
     id = parseInt(id);
 
     if (id !== -1) {
-        
+
         for (i = 0; i < contacts.length; i++) {
 
             if (contacts[i].id === id) {
@@ -35,7 +35,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 
 app.get('/api/contacts/:id', function(req, res) {
-    
+
     var id = req.params.id ;
 
     res.send(getContactById(id));
@@ -73,7 +73,7 @@ app.put('/api/contacts', function(req, res) {
             contact[field] = newValues[field];
         }
     }
-        
+
     res.send(contact);
 });
 
@@ -85,7 +85,7 @@ app.del('/api/contacts/:id', function(req, res) {
     for (i = 0; i < contacts.length; i++) {
 
         if (contacts[i].id === id){
-            
+
             contacts.splice(i, 1);
 
             res.send(true);
