@@ -1,10 +1,12 @@
 var express = require('express'),
     app = express(),
-    contacts = [{firstName: 'ace', lastName: 'haidrey', email: 'ahaidrey@berkeley.edu', id: 0},
-     {firstName: 'wes', lastName: 'ley', email: 'wl@berkeley.edu', id: 1},
-      {firstName: 'mike', lastName: 'boss', email: 'boss@berkeley.edu', id: 2}],
+    contacts = [],
     nextId = contacts.length + 1,
     getContactById;
+
+//  {firstName: 'ace', lastName: 'haidrey', email: 'ahaidrey@berkeley.edu', id: 0},
+//  {firstName: 'wes', lastName: 'ley', email: 'wl@berkeley.edu', id: 1},
+//  {firstName: 'mike', lastName: 'boss', email: 'boss@berkeley.edu', id: 2}
 
 getContactById = function getContactById(id) {
 
