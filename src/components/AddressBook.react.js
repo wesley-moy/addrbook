@@ -8,7 +8,7 @@ import {Button} from 'react-bootstrap';
  * Address book class.
  */
 class AddressBook extends React.Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,7 @@ class AddressBook extends React.Component {
     this.getContacts = this.getContacts.bind(this);
     this.submitClick = this.submitClick.bind(this);
     this.addContact = this.addContact.bind(this);
-  } 
+  }
 
   // must be a better way of handling instead of handling them all separate
   // such as some generic function that takes in thing we want to change
@@ -97,7 +97,7 @@ class AddressBook extends React.Component {
   }
 
   /**
-   * Makes the POST request to add contact to server. 
+   * Makes the POST request to add contact to server.
    * @param Contact object.
    */
   addContact(contact) {
