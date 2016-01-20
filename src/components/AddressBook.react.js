@@ -2,12 +2,12 @@
 
 import React from 'react';
 import $ from 'jquery';
-import {Button} from 'react-bootstrap';
-
+import { Router, Route, Link } from 'react-router';
+import Button from './Button.react';
 /**
  * Address book class.
  */
-class AddressBook extends React.Component {
+export default class AddressBook extends React.Component {
 
   constructor(props) {
     super(props);
@@ -23,6 +23,7 @@ class AddressBook extends React.Component {
     this.handleEmail = this.handleEmail.bind(this);
     this.getContacts = this.getContacts.bind(this);
     this.submitClick = this.submitClick.bind(this);
+    this.editClick = this.editClick.bind(this);
     this.addContact = this.addContact.bind(this);
     this.delContact = this.delContact.bind(this);
   }
@@ -148,7 +149,6 @@ class AddressBook extends React.Component {
   /**
    * Sends DELETE request to remove contact from the server.
    */
-  // maybe want to pass in contact? or else how know?
   delContact(id, e) {
     //call delete
     e.preventDefault();
@@ -164,6 +164,12 @@ class AddressBook extends React.Component {
       }
     });
     this.getContacts();
+  }
+
+  editClick(e) {
+    // need to handle once clicked then give it screen to edit and save
+    e.preventDefault();
+    console.log('edit click triggered');
   }
 
   /**
@@ -187,7 +193,8 @@ class AddressBook extends React.Component {
    * Render the HTML onto the web UI.
    */
   render() {
-    var delContact = this.delContact;
+    var delContact = this.delContact; //can use arrow notation too to bind 
+    var editClick = this.editClick;
     return (
       <div>
         <h1>{this.props.message}</h1>
@@ -201,19 +208,7 @@ class AddressBook extends React.Component {
             Must include a valid email. </p>
             <button type = 'submit' onClick={this.submitClick}> Submit </button>
             <br/>
-            <button onClick={this.viewClick}> View Directory </button>
-            <div className = 'entries'>
-              {
-                this.state.contacts.map(function (contact, index) {
-                  return (
-                    <span key={index}>
-                      <div> {contact.lastName}, {contact.firstName} </div>
-                      <button onClick={delContact.bind(null, contact.id)}> Delete </button>
-                    </span>
-                  );
-                })
-              }
-            </div>
+            <Button buttonName='Add Contact' onClick={this.viewClick}> </Button>
         </form>
       </div>
     );
