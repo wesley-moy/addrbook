@@ -2,7 +2,7 @@
 
 import React from 'react';
 import $ from 'jquery';
-import {Link } from 'react-router';
+import {Link} from 'react-router';
 import Button from './Button.react';
 
 /**
@@ -10,23 +10,18 @@ import Button from './Button.react';
  */
 export default class AddContactPanel extends React.Component {
 
-
   constructor(props) {
     super(props);
     this.state = {
       curFirstName: 'First Name', //having these 4 fields necessary to keep update?
       curLastName: 'Last Name',
-      curEmail: 'Email',
-      contacts: []
+      curEmail: 'Email'
     };
     this.handleFName = this.handleFName.bind(this); // look over when need to bind and not bind
     this.handleLName = this.handleLName.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
-    this.getContacts = this.getContacts.bind(this);
     this.submitClick = this.submitClick.bind(this);
-    this.editClick = this.editClick.bind(this);
     this.addContact = this.addContact.bind(this);
-    this.delContact = this.delContact.bind(this);
   }
 
   // must be a better way of handling instead of handling them all separate
@@ -115,59 +110,7 @@ export default class AddContactPanel extends React.Component {
         console.log('put was performed.');
       }
     });
-    this.getContacts();
-  }
-
-  /**
-   * Grabs the contacts from the server, and saves it to contacts in state object.
-   */
-  getContacts() {
-    $.ajax({
-      url: '/api/contacts',
-      type: 'GET',
-      dataType: 'json',
-      success: (res) => {
-        this.setState({
-          contacts: res
-        });
-      }
-    });
-  }
-
-  /**
-   * Onclick function to show all the contacts.
-   * @return {[type]} [description]
-   */
-  viewClick(e) {
-    // want to add it to a new route to display contacts
-    e.preventDefault();
-    console.log('viewClick');
-  }
-
-  /**
-   * Sends DELETE request to remove contact from the server.
-   */
-  delContact(id, e) {
-    //call delete
-    e.preventDefault();
-    $.ajax({
-      url: '/api/contacts/' + id,
-      type: 'DELETE',
-      dataType: 'json',
-      success: (data) => {
-        console.log('delete was performed.' + id);
-      },
-      error: (xhr, status, error) => {
-        console.log(xhr);
-      }
-    });
-    this.getContacts();
-  }
-
-  editClick(e) {
-    // need to handle once clicked then give it screen to edit and save
-    e.preventDefault();
-    console.log('edit click triggered');
+    // this.getContacts();
   }
 
   /**
@@ -181,18 +124,9 @@ export default class AddContactPanel extends React.Component {
   }
 
   /**
-   * Preliminary getting contacts to display on UI.
-   */
-  componentDidMount() {
-    this.getContacts();
-  }
-
-  /**
    * Render the HTML onto the web UI.
    */
   render() {
-    var delContact = this.delContact; //can use arrow notation too to bind 
-    var editClick = this.editClick;
     return (
       <div>
         <form>
@@ -203,7 +137,6 @@ export default class AddContactPanel extends React.Component {
             <p> <input type='email' name={this.props.email} placeholder={this.props.email} onChange={this.handleEmail}/>
             Must include a valid email. </p>
             <button type = 'submit' onClick={this.submitClick}> Submit </button>
-            <br/>
             <Button linkName='addressbook' buttonName='Return to Contacts' />
         </form>
       </div>
