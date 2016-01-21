@@ -3,6 +3,7 @@
 import React from 'react';
 import $ from 'jquery';
 import Button from './Button.react';
+import Contact from './Contact.react';
 
 /**
  * Styled Button component. 
@@ -15,21 +16,13 @@ export default class AddressBook extends React.Component {
       contacts: []
     }
     this.getContacts = this.getContacts.bind(this);
-    this.editClick = this.editClick.bind(this);
     this.delContact = this.delContact.bind(this);
-  }
-
-  editClick(e) {
-    // need to handle once clicked then give it screen to edit and save
-    e.preventDefault();
-    console.log('edit click triggered');
   }
 
   /**
    * Sends DELETE request to remove contact from the server.
    */
   delContact(id, e) {
-    //call delete
     e.preventDefault();
     $.ajax({
       url: '/api/contacts/' + id,
@@ -63,16 +56,14 @@ export default class AddressBook extends React.Component {
 
   /**
    * Preliminary getting contacts to display on UI.
+   * Note to self: this happens before render, and only once its run
    */
   componentDidMount() {
     this.getContacts();
   }
 
-
-
   render() {
     var delContact = this.delContact; //can use arrow notation too to bind 
-    var editClick = this.editClick;
     return (
       <div>
         <h4> My Contacts: </h4>
@@ -81,7 +72,7 @@ export default class AddressBook extends React.Component {
             this.state.contacts.map(function (contact, index) {
               return (
                 <span key={index}>
-                  <div onClick={editClick.bind(null)}> {contact.lastName}, {contact.firstName} </div>
+                  <Contact contactObj={contact} />
                   <button onClick={delContact.bind(null, contact.id)}> Delete </button>
                 </span>
               );
@@ -93,5 +84,3 @@ export default class AddressBook extends React.Component {
     );
   }
 }
-
-

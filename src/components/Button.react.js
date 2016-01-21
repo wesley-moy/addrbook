@@ -6,7 +6,7 @@ import React from 'react';
 import {Link} from 'react-router';
 
 /**
- * Styled Button component. 
+ * Styled button component. 
  */
 export default class Button extends React.Component {
   
@@ -17,7 +17,7 @@ export default class Button extends React.Component {
   render() {
     return (
       <div>
-        <p> This is my button component. </p>
+        <h5> This is my button component. </h5>
         <button>
           <Link to={this.props.linkName}>{this.props.buttonName}</Link> 
         </button>
@@ -25,5 +25,3 @@ export default class Button extends React.Component {
     );
   }
 }
-// less is preprocessed
-// look up less sass

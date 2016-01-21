@@ -60,7 +60,7 @@ export default class AddContactPanel extends React.Component {
 
   /**
    * Onclick function to handle updating new contact to address book.
-   * @param event object
+   * @param e event object
    * @return On success, adds contact to contacts. On fail, prints error message to console.
    */
   submitClick(e) {
@@ -69,7 +69,7 @@ export default class AddContactPanel extends React.Component {
       var newContact = {
           firstName: this.state.curFirstName,
           lastName: this.state.curLastName,
-          email: this.state.curEmail  //i pass in newcontact info, server suppose to tag with id?
+          email: this.state.curEmail
       };
       this.addContact(newContact);
     } else {
@@ -107,10 +107,9 @@ export default class AddContactPanel extends React.Component {
       dataType: 'json',
       data: contact,
       success: function(data) {
-        console.log('put was performed.');
+        console.log('post was performed.');
       }
     });
-    // this.getContacts();
   }
 
   /**
@@ -123,9 +122,6 @@ export default class AddContactPanel extends React.Component {
       return re.test(email);
   }
 
-  /**
-   * Render the HTML onto the web UI.
-   */
   render() {
     return (
       <div>
@@ -148,9 +144,8 @@ export default class AddContactPanel extends React.Component {
 // issue of make mistake spelling then go fix it and press submit again, it won't update
 // error cases not working properly
 
-// 1. The initial page should be a directory page listing all of the contacts that have been added the directory.
-// 4. If you click on the name of the contact, it should take you to a page to edit the contact.
-// 5. A button below the list of contacts should take you to a page to create new contacts.
-// 6. On the create a contact page, it should have an input for: First Name, Last Name, and Email.
 // 7. Each input requires an input, and additionally, the email should follow a valid email format.
 
+// less is preprocessed
+// look up less sass
+// a tag refreshes a page, regrabbing and reloading entire file, really wasteful. thats why use link tag

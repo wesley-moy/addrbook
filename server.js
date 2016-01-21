@@ -4,10 +4,6 @@ var express = require('express'),
     nextId = contacts.length + 1,
     getContactById;
 
-//  {firstName: 'ace', lastName: 'haidrey', email: 'ahaidrey@berkeley.edu', id: 0},
-//  {firstName: 'wes', lastName: 'ley', email: 'wl@berkeley.edu', id: 1},
-//  {firstName: 'mike', lastName: 'boss', email: 'boss@berkeley.edu', id: 2}
-
 getContactById = function getContactById(id) {
 
     var i;
@@ -65,15 +61,11 @@ app.put('/api/contacts', function(req, res) {
         newValues = req.body.contact,
         contact = getContactById(id),
         field;
-
     if (contact !== null) {
-
         for (field in newValues) {
-
             contact[field] = newValues[field];
         }
     }
-
     res.send(contact);
 });
 

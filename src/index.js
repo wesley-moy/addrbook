@@ -10,9 +10,9 @@ import {Router, Route, IndexRoute} from 'react-router';
 const routes = (
   <Router>
     <Route path='/' component={Root}>
-      <IndexRoute component={AddContactPanel} />
+      <IndexRoute component={AddressBook} />
       <Route path='addcontactpanel' component={AddContactPanel} />
-      <Route path='editcontactpanel' component={EditContactPanel} />
+      <Route path='editcontactpanel/:id'  component={EditContactPanel} />
       <Route path='addressbook' component={AddressBook} />
     </Route>
   </Router>

@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 
 /**
- * Root Component
+ * Root Component.
  */
 export default class Root extends Component {
 
@@ -21,5 +21,3 @@ export default class Root extends Component {
     );
   }
 }
-
-// a tag refreshes a page, regrabbing and reloading entire file, really wasteful. thats why use link tag
