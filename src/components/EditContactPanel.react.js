@@ -7,7 +7,7 @@ import AddrBook from './AddressBook.react';
 /**
  * Styled Button component. 
  */
-export default class editContactPanel extends React.Component {
+export default class EditContactPanel extends React.Component {
   
   constructor(props) {
     super(props);

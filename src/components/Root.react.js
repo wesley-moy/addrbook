@@ -14,8 +14,12 @@ export default class Root extends Component {
   render() {
     return (
       <div>
-        <h1>Hey its root. </h1>
+        <h1> AddressBook </h1>
+        <h2>A fun place to store your contacts!</h2>
+        {this.props.children}
       </div>
     );
   }
 }
+
+// a tag refreshes a page, regrabbing and reloading entire file, really wasteful. thats why use link tag

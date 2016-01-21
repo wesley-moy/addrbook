@@ -3,8 +3,7 @@
 require('./css/Button.less');
 
 import React from 'react';
-import $ from 'jquery';
-import AddrBook from './AddressBook.react';
+import {Link} from 'react-router';
 
 /**
  * Styled Button component. 
@@ -19,7 +18,9 @@ export default class Button extends React.Component {
     return (
       <div>
         <p> This is my button component. </p>
-        <button> {this.props.buttonName} </button>
+        <button>
+          <Link to={this.props.linkName}>{this.props.buttonName}</Link> 
+        </button>
       </div>
     );
   }
