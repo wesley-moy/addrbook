@@ -27,4 +27,6 @@ build/Release
 node_modules
 
 # ignoring public folders.
-public
+public/bundle.js
+
+.DS_Store
