@@ -80,7 +80,7 @@ app.del('/api/contacts/:id', function(req, res) {
 
             contacts.splice(i, 1);
 
-            res.send(true);
+            res.send(contacts);
             break;
         }
     }
