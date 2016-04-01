@@ -1,21 +1,16 @@
-'use strict';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import AddressBook from './components/AddressBook.react';
-import AddContacts from './components/AddContacts.react';
-import EditContacts from './components/EditContacts.react';
-import Root from './components/Root.react';
-import {Router, Route, IndexRoute} from 'react-router';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import { Router, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxPromise from 'redux-promise';
+import Routes from './routes';
+import Reducers from './reducers/root.reducer';
 
-const routes = (
-  <Router>
-    <Route path='/' component={Root}>
-      <IndexRoute component={AddressBook} />
-      <Route path='/AddContacts' component={AddContacts} />
-      <Route path='/AddressBook' component={AddressBook} />
-      <Route path='/EditContacts/:id' component={EditContacts} />
-    </Route>
-  </Router>
-);
+const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
-ReactDOM.render(routes, document.getElementById('mount'));
+render(
+	<Provider store={createStoreWithMiddleware(Reducers)}>
+		<Router history={browserHistory} routes={Routes} />
+	</Provider>,
+	document.getElementById('mount'));
