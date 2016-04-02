@@ -52,7 +52,7 @@ app.post('/api/contacts', function(req, res) {
 
     nextId++;
 
-    res.send({contact});
+    res.send({contacts});
 });
 
 app.put('/api/contacts', function(req, res) {

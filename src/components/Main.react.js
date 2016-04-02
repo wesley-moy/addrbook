@@ -16,7 +16,6 @@ class Main extends Component {
   }
 
   render() {
-    console.log(this.props.contacts);
     return (
       <div>
         <h1> AddressBook </h1>
@@ -27,7 +26,6 @@ class Main extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state.contacts.contacts);
   return {
     contacts: state.contacts.contacts
   }
