@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { _fetchContacts, _addContacts } from '../actions/contacts.actions';
+import { _addContacts } from '../actions/contacts.actions';
 import AddressBook from './AddressBook.react';
 import RootReducer from '../reducers/root.reducer';
 
@@ -11,14 +11,9 @@ class Main extends Component {
     super(props);
   }
 
-  componentWillMount() {
-    this.props._addContacts('John','Daniel','email@email.com');
-  }
-
   render() {
     return (
       <div>
-        <h1> AddressBook </h1>
         <AddressBook contacts={this.props.contacts} />
       </div>
     );  
@@ -27,8 +22,9 @@ class Main extends Component {
 
 function mapStateToProps(state) {
   return {
-    contacts: state.contacts.contacts
+    contacts: state.contacts.contacts,
+    primaryContact: state.contacts.primaryContact
   }
 }
 
-export default connect(mapStateToProps, {_fetchContacts,_addContacts})(Main);
+export default connect(mapStateToProps, {_addContacts})(Main);

@@ -1,8 +1,10 @@
 'use strict';
 
 import React from 'react';
-import $ from 'jquery';
+import axios from 'axios';
 import { Link } from 'react-router';
+import { _addContacts } from '../actions/contacts.actions';
+import { connect } from 'react-redux';
 
 
 export default class AddContacts extends React.Component {
@@ -10,9 +12,9 @@ export default class AddContacts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
-      email: ""
+      firstName: '',
+      lastName: '',
+      email: ''
     };
     this._addContact = this._addContact.bind(this);
     this._updateFirstName = this._updateFirstName.bind(this);
@@ -46,21 +48,7 @@ export default class AddContacts extends React.Component {
     if(!re.test(this.state.email)){
       return;
     }
-      $.ajax({
-      url: "api/contacts/",
-      type: "POST",
-      data: {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        email: this.state.email
-      },
-      success: function(res){
-        console.log(res);
-      }.bind(this),
-      error: function(xhr, status, error){
-        console.log(status);
-      }
-    });
+    this.props._addContacts(this.state.firstName, this.state.lastName, this.state.email);
   }
 
   render() {
@@ -73,9 +61,11 @@ export default class AddContacts extends React.Component {
         <button onClick={this._addContact}>Add Contact</button> <br />
         <hr />
         <button>
-          <Link to="AddressBook">Address Book</Link>
+          <Link to="/">Address Book</Link>
         </button>
       </div>
     );
   }
 }
+
+export default connect(null, {_addContacts})(AddContacts);

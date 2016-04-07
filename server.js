@@ -1,7 +1,7 @@
 var express = require('express'),
     app = express(),
     contacts = [],
-    nextId = contacts.length + 1,
+    nextId = contacts.length,
     getContactById;
 
 getContactById = function getContactById(id) {
@@ -52,11 +52,11 @@ app.post('/api/contacts', function(req, res) {
 
     nextId++;
 
-    res.send({contacts});
+    res.send(contacts);
 });
 
 app.put('/api/contacts', function(req, res) {
-
+    console.log('parameters:', req.body.contact);
     var id = parseInt(req.body.id),
         newValues = req.body.contact,
         contact = getContactById(id),
@@ -66,12 +66,14 @@ app.put('/api/contacts', function(req, res) {
             contact[field] = newValues[field];
         }
     }
-    res.send(contact);
+    console.log('return value:', contacts);
+    res.send(contacts);
 });
 
-app.del('/api/contacts/:id', function(req, res) {
+app.del('/api/contacts', function(req, res) {
+    
 
-    var id = parseInt(req.params.id),
+    var id = parseInt(req.query.id),
         i;
 
     for (i = 0; i < contacts.length; i++) {

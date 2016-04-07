@@ -1,7 +1,10 @@
-'use strict';
+  'use strict';
 import React from 'react';
-import $ from 'jquery';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { _deleteContacts } from '../actions/contacts.actions.js';
+import AddContacts from './AddContacts.react';
+
 
 export default class AddressBook extends React.Component {
 
@@ -10,11 +13,13 @@ export default class AddressBook extends React.Component {
   }
 
   _renderContacts() {
+    var temp = this;
     return(
       this.props.contacts.map(function(contact, key) {
         return(
           <div key={key}>
-            {contact.firstName}, {contact.lastName}
+            <button onClick={temp.props._deleteContacts.bind(null, contact.id)}>Delete</button>
+            <Link to={`/EditContacts/${contact.id}/`}>{contact.firstName}, {contact.lastName}</Link>
           </div>
         )
       })
@@ -22,10 +27,16 @@ export default class AddressBook extends React.Component {
   }
 
   render() {
-    return (
-      <div className="contactsList">
+    return(
+      <div>
         {this._renderContacts()}
+        <hr />
+        <button>
+          <Link to="/AddContacts/">Add Contacts</Link> <br />
+        </button>
       </div>
     );
   }
 }
+
+export default connect(null, {_deleteContacts})(AddressBook);
