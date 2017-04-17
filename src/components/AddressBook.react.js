@@ -5,7 +5,7 @@ import $ from 'jquery';
 import { Link } from 'react-router';
 
 export default class AddressBook extends React.Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +37,7 @@ export default class AddressBook extends React.Component {
         this.setState({
           contacts: res
         })
-      }.bind(this),
+      },
       error: (xhr, status, error) => {
         console.log(status);
       }
