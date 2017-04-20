@@ -4,6 +4,11 @@ var express = require('express'),
     nextId = contacts.length + 1,
     getContactById;
 
+
+let contact1 = {id:1, firstName: 'Raffael', lastName: 'Nagel', email: 'nagel@mail.com'};
+contacts.push(contact1);
+nextId = contacts.length + 1,
+
 getContactById = function getContactById(id) {
 
     var i;

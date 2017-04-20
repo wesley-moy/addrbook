@@ -13,9 +13,9 @@ export default class Root extends Component {
    */
   render() {
     return (
-      <div>
-        <h1> AddressBook </h1>
-        <h2>A fun place to store your contacts!</h2>
+      <div className='address-book-component'>
+        <h1> Address Book App </h1>
+        <h2 className="subtitle">A fun place to store your contacts</h2>
         {this.props.children}
       </div>
     );

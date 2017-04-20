@@ -14,12 +14,9 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/'
   },
-  plugins: [
-    new webpack.NoErrorsPlugin()
-  ],
   resolve: {
     root: [nodeModulesPath],
-    extensions: ['', '.js', '.jsx', 'less']
+    extensions: ['', '.js', '.jsx', 'less','.css']
   },
   resolveLoader: {
     root: nodeModulesPath
@@ -29,6 +26,11 @@ module.exports = {
       test: /\.(js|jsx)$/,
       loader: 'babel-loader',
       exclude: /node_modules/,
-    }]
+    },
+    {
+      test: /\.css$/,
+      loaders: ['style-loader', 'css-loader'],
+    },
+  ]
   }
 };
