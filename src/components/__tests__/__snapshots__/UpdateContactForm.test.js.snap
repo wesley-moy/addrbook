@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UpdateContactForm Component Render Tests Renders correctly 1`] = `
+<div
+  className="contact-form-component"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <input
+      name="firstName"
+      onChange={[Function]}
+      placeholder="First Name"
+      type="text"
+      value=""
+    />
+    <input
+      name="lastName"
+      onChange={[Function]}
+      placeholder="Last Name"
+      type="text"
+      value=""
+    />
+    <input
+      name="email"
+      onChange={[Function]}
+      placeholder="email@mail.com"
+      type="email"
+      value=""
+    />
+    <div
+      className="form-controls"
+    >
+      <Button
+        label="↩"
+        linkTo="listContact"
+      />
+      <button
+        onClick={[Function]}
+        type="submit"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+`;

@@ -1,0 +1,155 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+/* override normalize.css defaults for font-family */
+html,
+body,
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: 'Open Sans', sans-serif; /* 1 */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background: #E74C3C;
+}
+
+.address-book-component {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin: 15vh 10vw;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+button,
+input {
+  border: 0;
+}
+
+button {
+  background-color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #f1f1f1;
+}
+
+button:focus,
+input:focus {
+  outline: none;
+}
+
+.address-book-component h1 {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.address-book-component .subtitle {
+  margin-top: -25px;
+  font-size: 17px;
+  font-style: italic;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.contact-item-component {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  width: 28vw;
+  min-width: 13em;
+  max-width: 28em;
+  margin: 1.5em 0;
+}
+
+.contact-item-component {
+  width: 100%;
+  padding: 6px;
+  margin: 6px 0;
+  color: #000000;
+  background: #ffffff;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.contact-item-component .contact-buttons {
+  display: flex;
+  flex-flow: row;
+  align-items: flex-start;
+}
+
+.contact-item-component .contact-buttons button:hover {
+  color: #F4B400;
+  background-color: white;
+}
+
+.contact-item-component .contact-name {
+  float: right;
+  width: 50%;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.contact-item-component .contact-email {
+  float: right;
+  width: 50%;
+  padding-left: 20px;
+  text-align: right;
+}
+
+.contact-list-component .contact-list-button-div {
+  padding-bottom: 20px;
+}
+
+.contact-list-component .contact-list-button-div a {
+  display: block;
+  text-align: center;
+}
+
+.contact-list-component .contact-list-button-div button {
+  width: 30vw;
+  min-width: 15em;
+  max-width: 30em;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  padding: 8px;
+}
+
+.contact-form-component form {
+  width: 30vw;
+  min-width: 15em;
+  max-width: 30em;
+}
+
+.contact-form-component input {
+  width: 100%;
+  height: 2.5em;
+  box-sizing: border-box;
+  padding: 0 12px;
+  vertical-align: top;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  margin-bottom: 6px
+}
+
+.contact-form-component button {
+  width: 96%;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  padding: 8px;
+}
+
+.contact-form-component .form-controls a{
+  width: 70%;
+}
+
+.contact-form-component .form-controls {
+  display: flex;
+  flex-flow: row nowrap;
+}

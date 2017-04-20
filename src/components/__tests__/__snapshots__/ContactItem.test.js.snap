@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContactItem Component Render Tests Renders correctly 1`] = `
+<div
+  className="contact-item-component"
+>
+  <div
+    className="contact-buttons"
+  >
+    <Button
+      label="✎"
+      linkTo="updateContact/1"
+    />
+  </div>
+  <div
+    className="contact-name"
+  >
+    <span>
+      testson
+      , 
+    </span>
+    <span>
+      test
+    </span>
+  </div>
+  <div
+    className="contact-email"
+  >
+    <span>
+      test@mail.com
+    </span>
+  </div>
+</div>
+`;
