@@ -1,0 +1,74 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+input AddContactInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  clientMutationId: String
+}
+
+type AddContactPayload {
+  newContactEdge: ContactEdge
+  viewer: Viewer
+  clientMutationId: String
+}
+
+type Contact implements Node {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String
+}
+
+type ContactConnection {
+  pageInfo: PageInfo!
+  edges: [ContactEdge]
+}
+
+type ContactEdge {
+  node: Contact
+  cursor: String!
+}
+
+type Mutation {
+  updateContact(input: UpdateContactInput!): UpdateContactPayload
+  addContact(input: AddContactInput!): AddContactPayload
+}
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Query {
+  node(id: ID!): Node
+  contact(id: String): Contact
+  contacts: Viewer
+}
+
+input UpdateContactInput {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  clientMutationId: String
+}
+
+type UpdateContactPayload {
+  contact: Contact
+  clientMutationId: String
+}
+
+type Viewer implements Node {
+  id: ID!
+  contacts(after: String, first: Int, before: String, last: Int): ContactConnection
+}

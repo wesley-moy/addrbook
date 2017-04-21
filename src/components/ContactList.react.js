@@ -1,12 +1,12 @@
 'use strict';
-
+import Relay from 'react-relay';
 import React, { Component } from 'react';
 import $ from 'jquery';
 import ContactItem from './ContactItem.react';
 import Button from './Button.react';
 import { Link } from 'react-router';
 
-export default class ContactList extends Component {
+class ContactList extends Component {
 
   constructor(props) {
     super(props);
@@ -16,55 +16,27 @@ export default class ContactList extends Component {
   }
 
   handleRemove = (event: any) => {
-    $.ajax({
-      url: '/api/contacts/' + event.target.id,
-      type: 'DELETE',
-      dataType: 'json',
-      success: (response) => {
-        console.log('we just deleted a contact :(');
-        this.getContactList();
-      },
-      error: (xhr, status, error) => {
-        console.log(xhr);
-      }
-    });
   }
 
   getContactList() {
-    $.ajax({
-      url: '/api/contacts/',
-      type: 'GET',
-      dataType: 'json',
-      success: (response) => {
-        this.setState({
-          contacts: response
-        });
-      },
-      error: (xhr, status, error) => {
-        console.log(xhr);
-      }
-    });
   }
 
   componentWillMount() {
-    this.getContactList();
+    // this.getContactList();
   }
 
   render() {
     let rows = [];
-    this.state.contacts.forEach((contact) => {
-        rows.push(
-          <ContactItem
-            key={contact.id}
-            contact={contact}
-            firstName={contact.firstName}
-            lastName={contact.lastName}
-            email={contact.email}
-            handleRemove={this.handleRemove}
-          />
-        );
-      },
-    );
+
+    this.props.contacts.edges.map((edge, index) => {
+      rows.push(
+        <ContactItem
+          key={edge.node.id}
+          contact={edge.node}
+          handleRemove={this.handleRemove}
+        />
+      );
+    });
 
     return(
       <div className='contact-list-component'>
@@ -76,3 +48,19 @@ export default class ContactList extends Component {
     );
   }
 }
+
+export default Relay.createContainer(ContactList, {
+  // initialVariables: {},
+  fragments: {
+    contacts: () => Relay.QL`
+      fragment on ContactConnection {
+        edges {
+          node {
+            id
+            ${ContactItem.getFragment('contact')}
+          }
+        }
+      }
+    `,
+  },
+});

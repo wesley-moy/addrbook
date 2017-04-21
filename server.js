@@ -1,98 +1,63 @@
-var express = require('express'),
-    app = express(),
-    contacts = [],
-    nextId = contacts.length + 1,
-    getContactById;
+import express from 'express';
+import graphQLHTTP from 'express-graphql';
+import mongoose from 'mongoose';
+import path from 'path';
+import webpack from 'webpack';
+import WebpackDevServer from 'webpack-dev-server';
+import { Schema } from './data/schema';
 
+const APP_PORT = 3000;
+const GRAPHQL_PORT = 8080;
+const MONGODB = process.env.MONGO || "mongodb://localhost:27017/address-book";
 
-let contact1 = {id:1, firstName: 'Raffael', lastName: 'Nagel', email: 'nagel@mail.com'};
-contacts.push(contact1);
-nextId = contacts.length + 1,
+// Expose a GraphQL endpoint
+express()
+  .use('/', graphQLHTTP({
+    schema: Schema,
+    pretty: true
+  }))
+  .listen(GRAPHQL_PORT, () => { console.log(
+    `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}` );
+  });
 
-getContactById = function getContactById(id) {
-
-    var i;
-
-    id = parseInt(id);
-
-    if (id !== -1) {
-
-        for (i = 0; i < contacts.length; i++) {
-
-            if (contacts[i].id === id) {
-
-                return contacts[i];
-            }
-        }
-    }
-
-    return null;
-};
-
-//This routes all document requests to the public folder
-app.use('/', express.static(__dirname + '/public'));
-
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-
-app.get('/api/contacts/:id', function(req, res) {
-
-    var id = req.params.id ;
-
-    res.send(getContactById(id));
+// Connect to MongoDB
+mongoose.connect(MONGODB, () => {
+  console.log(`MongoDB conencted at ${MONGODB}`);
 });
 
-app.get('/api/contacts', function(req, res) {
-
-    res.send(contacts);
+// Serve the Relay app
+const compiler = webpack({
+  entry: path.resolve(__dirname, 'src', 'index.js'),
+  module: {
+    loaders: [{
+      test: /\.(js|jsx)$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+    },
+    {
+      test: /\.css$/,
+      loaders: ['style-loader', 'css-loader?sourceMap'],
+    },
+  ]
+  },
+  output: {
+    path: '/',
+    filename: 'bundle.js'
+  },
+  devServer: {
+    historyApiFallback: true,
+    contentBase: './',
+  },
+});
+const app = new WebpackDevServer(compiler, {
+  contentBase: '/public/',
+  proxy: {'/graphql': `http://localhost:${GRAPHQL_PORT}`},
+  publicPath: '/src/',
+  stats: {colors: true},
 });
 
-app.post('/api/contacts', function(req, res) {
-
-    var contact = req.body;
-
-    contact.id = nextId;
-
-    contacts.push(contact);
-
-    nextId++;
-
-    res.send(contact);
+// Serve static resources
+app.use('/', express.static(path.resolve(__dirname, 'public')));
+app.listen(APP_PORT, () => {
+  console.log(`App is now running on http://localhost:${APP_PORT}`);
 });
-
-app.put('/api/contacts', function(req, res) {
-
-    var id = parseInt(req.body.id),
-        newValues = req.body.contact,
-        contact = getContactById(id),
-        field;
-    if (contact !== null) {
-        for (field in newValues) {
-            contact[field] = newValues[field];
-        }
-    }
-    res.send(contact);
-});
-
-app.del('/api/contacts/:id', function(req, res) {
-
-    var id = parseInt(req.params.id),
-        i;
-
-    for (i = 0; i < contacts.length; i++) {
-
-        if (contacts[i].id === id){
-
-            contacts.splice(i, 1);
-
-            res.send(contacts);
-            break;
-        }
-    }
-
-    res.send(false);
-});
-
-app.listen(3000);
-
-console.log('Listening on port 3000');

@@ -16,7 +16,7 @@ module.exports = {
   },
   resolve: {
     root: [nodeModulesPath],
-    extensions: ['', '.js', '.jsx', 'less','.css']
+    extensions: ['', '.js', '.jsx', 'less']
   },
   resolveLoader: {
     root: nodeModulesPath
@@ -29,7 +29,7 @@ module.exports = {
     },
     {
       test: /\.css$/,
-      loaders: ['style-loader', 'css-loader'],
+      loaders: ['style-loader', 'css-loader?sourceMap'],
     },
   ]
   }
