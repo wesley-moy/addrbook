@@ -1,7 +1,9 @@
+import Relay from 'react-relay';
 import React, { Component } from 'react';
 import Button from './Button.react';
-import $ from 'jquery';
-
+import ContactList from './ContactList.react';
+import ContactItem from './ContactItem.react';
+import UpdateContactMutation from '../mutations/UpdateContactMutation';
 
 type State = {
   contact: Object,
@@ -10,43 +12,16 @@ type State = {
   email: string,
 };
 
-export default class UpdateContactForm extends Component {
+class UpdateContactForm extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      contact: {id: this.props.params.id},
-      firstName: '',
-      lastName: '',
-      email: '',
+      id: this.props.viewer.id,
+      firstName: this.props.viewer.firstName,
+      lastName: this.props.viewer.lastName,
+      email: this.props.viewer.email,
     };
-  }
-
-  getContact(id) {
-    $.ajax({
-      url: '/api/contacts/' + id,
-      type: 'GET',
-      dataType: 'json',
-      success: (response) => {
-        if (response.id == id) {
-            let contact = {};
-            contact.id = id;
-            contact.firstName = response.firstName;
-            contact.lastName = response.lastName;
-            contact.email = response.email;
-            this.setState({
-              contact: contact,
-              firstName: contact.firstName,
-              lastName: contact.lastName,
-              email: contact.email,
-            });
-        }
-        console.log(response);
-      },
-      error: (xhr, status, error) => {
-        console.log(xhr);
-      }
-    });
   }
 
   handleChange = (event: any) => {
@@ -58,18 +33,13 @@ export default class UpdateContactForm extends Component {
   handleSubmit = (event: any) => {
     event.preventDefault();
     if (this.isValidData()) {
-      let contact = {};
-      contact.id = this.state.contact.id;
-      contact.firstName = this.state.firstName;
-      contact.lastName = this.state.lastName;
-      contact.email = this.state.email;
-
+      this.updateContact();
       this.setState({
+        id: '',
         firstName: '',
         lastName: '',
         email: '',
       });
-      this.updateContact(contact);
     }
   }
 
@@ -86,27 +56,20 @@ export default class UpdateContactForm extends Component {
     return true;
   }
 
-  updateContact(contact) {
-    $.ajax({
-      url:'/api/contacts/',
-      type: 'PUT',
-      dataType: 'json',
-      data: {id: contact.id, contact: contact},
-      success: function(data) {
-        console.log(data);
-        console.log('We updated a contact! \o/');
-      },
-      error: function(error) {
-        console.log(error);
-      }
-    });
-  }
-
-  componentWillMount() {
-    this.getContact(this.state.contact.id);
+  updateContact() {
+    Relay.Store.commitUpdate(
+      new UpdateContactMutation({
+        viewer: this.props.viewer,  // pass prop viewer for fragment to work
+        id: this.state.id,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+      }),
+    );
   }
 
   render() {
+
     return(
       <div className='contact-form-component'>
         <form onSubmit={this.handleSubmit}>
@@ -140,3 +103,17 @@ export default class UpdateContactForm extends Component {
     );
   }
 }
+
+export default Relay.createContainer(UpdateContactForm, {
+  // initialVariables: {},
+  fragments: {
+    viewer: () => Relay.QL`
+      fragment on Contact {
+        id
+        firstName
+        lastName,
+        email
+      }
+    `,
+  },
+});

@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import Relay from 'react-relay';
+import ContactList from './ContactList.react';
+import AddContactMutation from '../mutations/AddContactMutation';
 import Button from './Button.react';
-import $ from 'jquery';
+
+type Props = {
+  handleSubmit: ?Function,
+};
 
 type State = {
   firstName: string,
@@ -8,9 +14,10 @@ type State = {
   email: string,
 };
 
-export default class AddContactForm extends Component {
+class AddContactForm extends Component {
 
   state: State;
+  props: Props;
 
   constructor(props) {
     super(props);
@@ -21,6 +28,18 @@ export default class AddContactForm extends Component {
     };
   }
 
+  saveContact() {
+    // create an instance of the mutation and queue it on commitUpdate
+    Relay.Store.commitUpdate(
+      new AddContactMutation({
+        viewer: this.props.viewer,  // pass prop viewer for fragment to work
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+      }),
+    );
+  }
+
   handleChange = (event: any) => {
     const newState = {};
     newState[event.target.name] = event.target.value;
@@ -29,18 +48,17 @@ export default class AddContactForm extends Component {
 
   handleSubmit = (event: any) => {
     event.preventDefault();
+    console.log('lets save a contact!');
     if (this.isValidData()) {
-      let contact = {};
-      contact.firstName = this.state.firstName;
-      contact.lastName = this.state.lastName;
-      contact.email = this.state.email;
+      console.log('saving contact!');
+      this.saveContact();
 
       this.setState({
         firstName: '',
         lastName: '',
         email: '',
       });
-      this.saveContact(contact);
+
     }
   }
 
@@ -55,22 +73,6 @@ export default class AddContactForm extends Component {
       return false;
     }
     return true;
-  }
-
-  saveContact(contact) {
-    $.ajax({
-      url:'/api/contacts',
-      type: 'POST',
-      dataType: 'json',
-      data: contact,
-      success: function(data) {
-
-        console.log('We saved a contact! \o/');
-      },
-      error: function(error) {
-        // console.log(error);
-      }
-    });
   }
 
   render() {
@@ -107,3 +109,17 @@ export default class AddContactForm extends Component {
     );
   }
 }
+
+
+export default Relay.createContainer(AddContactForm, {
+  // initialVariables: {},
+  fragments: {
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        contacts(first: 10) {
+          ${ContactList.getFragment('contacts')}
+        },
+      }
+    `,
+  },
+});

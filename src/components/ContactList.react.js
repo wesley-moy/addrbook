@@ -1,8 +1,8 @@
 'use strict';
 import Relay from 'react-relay';
 import React, { Component } from 'react';
-import $ from 'jquery';
 import ContactItem from './ContactItem.react';
+import DeleteContactMutation from '../mutations/DeleteContactMutation';
 import Button from './Button.react';
 import { Link } from 'react-router';
 
@@ -16,13 +16,16 @@ class ContactList extends Component {
   }
 
   handleRemove = (event: any) => {
+    // create an instance of the mutation and queue it on commitUpdate
+    this.props.relay.commitUpdate(
+      new DeleteContactMutation({
+        viewer: this.props.viewer,  // pass prop viewer for fragment to work
+        contactId: event.target.id,
+      }),
+    );
   }
 
   getContactList() {
-  }
-
-  componentWillMount() {
-    // this.getContactList();
   }
 
   render() {
@@ -32,6 +35,7 @@ class ContactList extends Component {
       rows.push(
         <ContactItem
           key={edge.node.id}
+          id={edge.node.id}
           contact={edge.node}
           handleRemove={this.handleRemove}
         />

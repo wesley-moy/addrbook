@@ -96,6 +96,43 @@ const addContactMutation = mutationWithClientMutationId({
 });
 
 /**
+ * deletes a Contact
+ */
+ const deleteOneMutation = mutationWithClientMutationId({
+   name: 'DeleteOne',
+   inputFields: {
+     contactId: {
+       type: new GraphQLNonNull(GraphQLID),
+     },
+   },
+   outputFields: {
+     viewer: {
+       type: viewerType,
+       resolve: async () => {
+         //console.log('output viewer for delete one mutation');
+         let ret = await getContactIds();
+         //console.log(ret);
+         return ret;
+       },
+     },
+     contactId: {
+       type: GraphQLID,
+       resolve: (payload) => payload.contactId,
+     },
+   },
+   mutateAndGetPayload: async ({contactId}) => {  // make sure param name matches inputFields
+     console.log('deleteOne getting payload');
+     // must be async function
+     // and await mongoose promise to resolve
+     let _id = fromGlobalId(contactId).id;
+     let deletedContact = await deleteOne(_id);
+     return {
+       contactId: deletedContact.id,
+     }
+   },
+ });
+
+/**
  * updates a Contact
  */
 const updateContactMutation = mutationWithClientMutationId({
@@ -137,4 +174,5 @@ const updateContactMutation = mutationWithClientMutationId({
 export default {
   updateContact: updateContactMutation,
   addContact: addContactMutation,
+  deleteOne: deleteOneMutation,
 };

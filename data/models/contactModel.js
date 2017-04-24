@@ -130,6 +130,8 @@ exports.getContactById = (_id) => {
     Contacts.findOne(
       {_id: mongoose.Types.ObjectId(_id)},
       (err, contact) => {
+        console.log(contact);
+        console.log(err);
         err ? reject(err) : resolve(contact);
       }
     );

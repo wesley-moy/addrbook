@@ -8,7 +8,7 @@ import Root from './components/Root.react';
 import ContactList from './components/ContactList.react'
 import AddContactForm from './components/AddContactForm.react'
 import UpdateContactForm from './components/UpdateContactForm.react';
-import {Router, Route, IndexRoute, applyRouterMiddleware} from 'react-router';
+import {Router, Route, IndexRoute, applyRouterMiddleware, browserHistory} from 'react-router';
 
 import './styles/styles.css';
 
@@ -16,13 +16,21 @@ const ViewerQueries = {
   viewer: () => Relay.QL`query { contacts }`
 };
 
+const ContactQueries = {
+  viewer: () => Relay.QL`
+    query {
+      contact(id: $id),
+    }
+  `
+};
+
 const routes = (
-  <Router render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
+  <Router render={applyRouterMiddleware(useRelay)} environment={Relay.Store} forceFetch={true} >
     <Route path='/' component={Root}>
-      <IndexRoute component={App} queries={ViewerQueries} />
-      <Route path='listContact' component={App} queries={ViewerQueries} />
+      <IndexRoute component={App} queries={ViewerQueries} forceFetch={true} />
+      <Route path='listContact' component={App} queries={ViewerQueries} forceFetch={true}/>
       <Route path='addContact' component={AddContactForm} queries={ViewerQueries} />
-      <Route path='updateContact/:id' component={UpdateContactForm} queries={ViewerQueries} />
+      <Route path='updateContact/:id' component={UpdateContactForm} queries={ContactQueries} />
     </Route>
   </Router>
 );

@@ -8,11 +8,13 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    console.log(this.props);
   }
 
   render() {
     return(
       <ContactList
+         viewer={this.props.viewer}
          contacts={this.props.viewer.contacts}
       />
     );

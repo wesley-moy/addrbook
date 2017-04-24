@@ -33,9 +33,21 @@ type ContactEdge {
   cursor: String!
 }
 
+input DeleteOneInput {
+  contactId: ID!
+  clientMutationId: String
+}
+
+type DeleteOnePayload {
+  viewer: Viewer
+  contactId: ID
+  clientMutationId: String
+}
+
 type Mutation {
   updateContact(input: UpdateContactInput!): UpdateContactPayload
   addContact(input: AddContactInput!): AddContactPayload
+  deleteOne(input: DeleteOneInput!): DeleteOnePayload
 }
 
 interface Node {
